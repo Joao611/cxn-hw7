@@ -1,0 +1,70 @@
+---
+title: "HW 7"
+author: "Alicja Dutkiewicz, Irina Gurewitsch, João Esteves"
+date: "02/11/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(igraph)
+library(purrr)
+
+# Safer version of sample, fixes results for length 1
+resample <- function(x, ...) x[sample.int(length(x), ...)]
+
+genConfModel <- function(degs) {
+  hasFreeStubs <- map(degs, function(x) x != 0)
+  s <- c()
+  t <- c()
+  
+  repeat {
+    non_zero_inds <- which(degs > 0)
+    if (length(non_zero_inds) < 2 & length(which(degs >= 2)) == 0) {
+      break
+    }
+  
+    stub1_ind <- resample(non_zero_inds, 1)
+    s <- append(s, stub1_ind)
+    degs[stub1_ind] <- degs[stub1_ind] - 1
+  
+    non_zero_inds <- which(degs > 0)
+    stub2_ind <- resample(non_zero_inds, 1)
+    t <- append(t, stub2_ind)
+    degs[stub2_ind] <- degs[stub2_ind] - 1
+  }
+  
+  links <- data.frame(
+    source=c(1),
+    target=c(2)
+    )
+  return (links)
+}
+
+res <- genConfModel(c(1, 1))
+print(res)
+
+# create the network object
+network <- graph_from_data_frame(d=links, directed=F)
+
+# plot it
+plot(network)
+
+```
+
+## R Markdown
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

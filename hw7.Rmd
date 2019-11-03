@@ -23,8 +23,7 @@ library(data.table)
 resample <- function(x, ...) x[sample.int(length(x), ...)]
 
 genConfModel <- function(degs) {
-  s <- c()
-  t <- c()
+  edges <- list()
   
   repeat {
     # Find unconnected stubs
@@ -35,27 +34,29 @@ genConfModel <- function(degs) {
   
     # Randomly pick a stub
     stub1_ind <- resample(non_zero_inds, 1)
-    s <- append(s, stub1_ind)
+    # s <- append(s, stub1_ind)
     degs[stub1_ind] <- degs[stub1_ind] - 1
   
     # Randomly pick a stub to connect the previous one to
     non_zero_inds <- which(degs > 0)
     stub2_ind <- resample(non_zero_inds, 1)
-    t <- append(t, stub2_ind)
+    # t <- append(t, stub2_ind)
     degs[stub2_ind] <- degs[stub2_ind] - 1
+    
+    edges <- append(edges, list(list(stub1_ind, stub2_ind)))
   }
   
-  links <- data.frame(
-    source=s,
-    target=t
-    )
+  links <- data.frame(t(sapply(edges, c)))
+    # source=s,
+    # target=t
+    # )
   return (links)
 }
 ```
 
 #### (2)
 
-This algorithm's space complexity is O().
+TODO
 
 #### (3)
 
@@ -100,6 +101,38 @@ degs2 <- c(7, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 The average number of self-loops in k1 is 0.83 while for k2 it's 2.5. The average number of repeated edges in k1 is 1.13 while for k2 it's 2.73.
 
 ## Exercise 2
+
+```{r}
+genRepConfModel <- function(degs) {
+  s <- c()
+  t <- c()
+  
+  repeat {
+    # Find unconnected stubs
+    non_zero_inds <- which(degs > 0)
+    if (length(non_zero_inds) < 2 & length(which(degs >= 2)) == 0) {
+      break
+    }
+  
+    # Randomly pick a stub
+    stub1_ind <- resample(non_zero_inds, 1)
+    s <- append(s, stub1_ind)
+    degs[stub1_ind] <- degs[stub1_ind] - 1
+  
+    # Randomly pick a stub to connect the previous one to
+    non_zero_inds <- which(degs > 0)
+    stub2_ind <- resample(non_zero_inds, 1)
+    t <- append(t, stub2_ind)
+    degs[stub2_ind] <- degs[stub2_ind] - 1
+  }
+  
+  links <- data.frame(
+    source=s,
+    target=t
+    )
+  return (links)
+}
+```
 
 ## Exercise 3
 

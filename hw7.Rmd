@@ -17,7 +17,6 @@ library(purrr)
 resample <- function(x, ...) x[sample.int(length(x), ...)]
 
 genConfModel <- function(degs) {
-  hasFreeStubs <- map(degs, function(x) x != 0)
   s <- c()
   t <- c()
   
@@ -38,14 +37,13 @@ genConfModel <- function(degs) {
   }
   
   links <- data.frame(
-    source=c(1),
-    target=c(2)
+    source=s,
+    target=t
     )
   return (links)
 }
 
-res <- genConfModel(c(1, 1))
-print(res)
+links <- genConfModel(c(1, 2, 2, 1))
 
 # create the network object
 network <- graph_from_data_frame(d=links, directed=F)

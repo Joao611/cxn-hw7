@@ -1,7 +1,7 @@
 ---
 title: "Homework 7"
 author: "Alicja Dutkiewicz, Irina Gurewitsch, João Esteves"
-date: "02/11/2019"
+date: "04/11/2019"
 output: html_document
 editor_options: 
   chunk_output_type: console
@@ -149,7 +149,6 @@ drawNewRepCM <- function(degs) {
   success <- FALSE
   i <- 0
   while (!success) {
-    SUCCESS <- FALSE
     i <- i + 1
     printf('Generating graph: attempt %d\n', i)
     links <- tryCatch({
@@ -194,13 +193,48 @@ Generalizing this example, it means that degree distributions including elements
 
 #### (5)
 
-avgClusterCoef -> function(edges) {
-  
+In the code chunk below you'll find functions to obtain, respectively, the degree of a node, the local clustering coefficient of a node and the average clustering coefficient. The time complexity for the former is O(|V|<sup>3</sup>).
+
+Note that for this exercise the graph representation is now an adjacency matrix rather than a list of edges.
+
+```{r}
+# Time: O(|V|)
+getNodeDegree <- function(adjMat, node) {
+  sum(adjMat[node,])
 }
+
+# Time: O(|V| + |V|^2) = O(|V|^2)
+getLocalClusterCoef <- function(adjMat, node) {
+  nodeDeg <- getNodeDegree(adjMat, node)
+  if (nodeDeg <= 1) {
+    return (0)
+  }
+  triangles <- 0
+  for (n1 in setdiff(1:nrow(adjMat), node)) {
+    for (n2 in setdiff(1:nrow(adjMat), c(node, n1))) {
+      triangles <- triangles + adjMat[node, n1] * adjMat[n1, n2] * adjMat[n2, node]
+    }
+  }
+  return (triangles / (nodeDeg * (nodeDeg - 1)))
+}
+
+# Time: O(|V|*(|V|^2)) = O(|V|^3)
+getAvgClusterCoef <- function(adjMat) {
+  sum <- 0
+  for (node in 1:nrow(adjMat)) {
+    sum <- sum + getLocalClusterCoef(adjMat, node)
+  }
+  return (sum / nrow(adjMat))
+}
+```
 
 #### (6)
 
-
+```{r}
+localRewiring <- function(adjMat) {
+  
+}
+```
 
 ## Including Plots
 

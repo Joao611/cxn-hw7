@@ -12,7 +12,7 @@
 
 <meta name="author" content="Alicja Dutkiewicz, Irina Gurewitsch, João Esteves" />
 
-<meta name="date" content="2019-02-11" />
+<meta name="date" content="2019-04-11" />
 
 <title>Homework 7</title>
 
@@ -365,7 +365,7 @@ summary {
 
 <h1 class="title toc-ignore">Homework 7</h1>
 <h4 class="author">Alicja Dutkiewicz, Irina Gurewitsch, João Esteves</h4>
-<h4 class="date">02/11/2019</h4>
+<h4 class="date">04/11/2019</h4>
 
 </div>
 
@@ -657,7 +657,6 @@ drawNewRepCM &lt;- function(degs) {
   success &lt;- FALSE
   i &lt;- 0
   while (!success) {
-    SUCCESS &lt;- FALSE
     i &lt;- i + 1
     printf(&#39;Generating graph: attempt %d\n&#39;, i)
     links &lt;- tryCatch({
@@ -696,11 +695,42 @@ printf(&#39;Average restarts: %f\n&#39;, mean(restarts))</code></pre>
 <h2>Exercise 7.3</h2>
 <div id="section-4" class="section level4">
 <h4>(5)</h4>
-<p>avgClusterCoef -&gt; function(edges) {</p>
-<p>}</p>
+<p>In the code chunk below you’ll find functions to obtain, respectively, the degree of a node, the local clustering coefficient of a node and the average clustering coefficient. The time complexity for the former is O(|V|<sup>3</sup>).</p>
+<p>Note that for this exercise the graph representation is now an adjacency matrix rather than a list of edges.</p>
+<pre class="r"><code># Time: O(|V|)
+getNodeDegree &lt;- function(adjMat, node) {
+  sum(adjMat[node,])
+}
+
+# Time: O(|V| + |V|^2) = O(|V|^2)
+getLocalClusterCoef &lt;- function(adjMat, node) {
+  nodeDeg &lt;- getNodeDegree(adjMat, node)
+  if (nodeDeg &lt;= 1) {
+    return (0)
+  }
+  triangles &lt;- 0
+  for (n1 in setdiff(1:nrow(adjMat), node)) {
+    for (n2 in setdiff(1:nrow(adjMat), c(node, n1))) {
+      triangles &lt;- triangles + adjMat[node, n1] * adjMat[n1, n2] * adjMat[n2, node]
+    }
+  }
+  return (triangles / (nodeDeg * (nodeDeg - 1)))
+}
+
+# Time: O(|V|*(|V|^2)) = O(|V|^3)
+getAvgClusterCoef &lt;- function(adjMat) {
+  sum &lt;- 0
+  for (node in 1:nrow(adjMat)) {
+    sum &lt;- sum + getLocalClusterCoef(adjMat, node)
+  }
+  return (sum / nrow(adjMat))
+}</code></pre>
 </div>
 <div id="section-5" class="section level4">
 <h4>(6)</h4>
+<pre class="r"><code>localRewiring &lt;- function(adjMat) {
+  
+}</code></pre>
 </div>
 </div>
 <div id="including-plots" class="section level2">

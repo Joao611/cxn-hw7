@@ -14,6 +14,8 @@ library(purrr)
 library(data.table)
 library(R.utils)
 library(seqinr) # swap
+library(knitr) #tables
+library(kableExtra) # tables
 ```
 
 ## Exercise 7.1
@@ -231,19 +233,9 @@ getAvgClusterCoef <- function(adjMat) {
 
 #### (6)
 
+The code below defines functions for the elementary rewiring step and for the local rewiring algorithm.
+
 ```{r}
-# graph with 4 disconnected clusters
-g1 <- matrix(0, nrow=12, ncol=12)
-g1Edges <- data.frame('src' = 1:12, 'target' = c(2,3,1, 5,6,4, 8,9,7, 11,12,10))
-g1[cbind(g1Edges$src, g1Edges$target)] <- g1[cbind(g1Edges$target, g1Edges$src)] <- 1
-
-# circular graph
-g2 <- matrix(0, nrow=12, ncol=12)
-g2Edges <- data.frame('src' = 1:12, 'target' = (1:12 %% 12) + 1)
-g2[cbind(g2Edges$src, g2Edges$target)] <- g2[cbind(g2Edges$target, g2Edges$src)] <- 1
-
-# plot(graph_from_adjacency_matrix(g2, mode='undirected'))
-
 rewireStep <- function(adjMat) {
   edges <- which(adjMat != 0, arr.ind=TRUE)
   repeat {
@@ -272,17 +264,58 @@ localRewiring <- function(adjMat, its) {
   for (i in 1:its) {
     adjMat <- rewireStep(adjMat)
   }
-  print(adjMat)
-  plot(graph_from_adjacency_matrix(adjMat, mode='undirected'))
+  return (adjMat)
 }
 ```
 
-## Including Plots
+The code below runs the local rewiring algorithm and measures the obtained graphs' average cluster coefficients to generate a table.
 
-You can also embed plots, for example:
+```{r}
+# Graph with 4 disconnected clusters
+g1 <- matrix(0, nrow=12, ncol=12)
+g1Edges <- data.frame('src' = 1:12, 'target' = c(2,3,1, 5,6,4, 8,9,7, 11,12,10))
+g1[cbind(g1Edges$src, g1Edges$target)] <- g1[cbind(g1Edges$target, g1Edges$src)] <- 1
 
-```{r pressure, echo=FALSE}
-# plot(pressure)
+# Circular graph
+g2 <- matrix(0, nrow=12, ncol=12)
+g2Edges <- data.frame('src' = 1:12, 'target' = (1:12 %% 12) + 1)
+g2[cbind(g2Edges$src, g2Edges$target)] <- g2[cbind(g2Edges$target, g2Edges$src)] <- 1
+
+g1_avg <- getAvgClusterCoef(g1)
+g2_avg <- getAvgClusterCoef(g2)
+
+g1r5 <- g1r40 <- g2r5 <- g2r40 <- c()
+for (i in 1:10) {
+  g1_rewired5 <- localRewiring(g1, its=5)
+  g2_rewired5 <- localRewiring(g2, its=5)
+  
+  g1_rewired5_avg <- getAvgClusterCoef(g1_rewired5)
+  g2_rewired5_avg <- getAvgClusterCoef(g2_rewired5)
+  
+  g1_rewired40 <- localRewiring(g1, its=40)
+  g2_rewired40 <- localRewiring(g2, its=40)
+  
+  g1_rewired40_avg <- getAvgClusterCoef(g1_rewired40)
+  g2_rewired40_avg <- getAvgClusterCoef(g2_rewired40)
+  
+  g1r5 <- append(g1r5, g1_rewired5_avg)
+  g1r40 <- append(g1r40, g1_rewired40_avg)
+  g2r5 <- append(g2r5, g2_rewired5_avg)
+  g2r40 <- append(g2r40, g2_rewired40_avg)
+}
+
+avgTable <- data.frame(Experiment = 1:10,
+                       G1.5 = g1r5,
+                       G2.5 = g2r5,
+                       G1.40 = g1r40,
+                       G2.40 = g2r40)
+kable(avgTable,
+      col.names = c('Experiment','G1','G2','G1','G2'),
+      align=c('l','c','c','c','c')
+      ) %>%
+  kable_styling(bootstrap_options = c("striped", "hover", "bordered"), full_width = F, position = 'left') %>%
+  add_header_above(c('', '5 iterations' = 2, '40 iterations' = 2))
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+In addition to the table, the average cluster coefficients before rewiring for G1 and G2 are respectively 1.0 and 0.0.
+As seen in the table, there aren't many differences between starting the algorithm on G1 or G2. This is because G1 can turn into G2 and vice-versa after just a few rewiring steps, so the results are quite random.

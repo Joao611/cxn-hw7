@@ -1,5 +1,5 @@
 ---
-title: "HW 7"
+title: "Homework 7"
 author: "Alicja Dutkiewicz, Irina Gurewitsch, João Esteves"
 date: "02/11/2019"
 output: html_document
@@ -15,7 +15,7 @@ library(data.table)
 library(R.utils)
 ```
 
-## Exercise 1
+## Exercise 7.1
 
 #### (1)
 
@@ -62,7 +62,7 @@ degs1 <- c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
 degs2 <- c(7, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 ```
 
-| k1 self-loops | k2 self-loops | k1 repeated edges | k2 repeated edges |
+| k<sub>1</sub> self-loops | k<sub>2</sub> self-loops | k<sub>1</sub> repeated edges | k<sub>2</sub> repeated edges |
 |---------------|---------------|-------------------|-------------------|
 | 4             | 3             | 0                 | 3                 |
 | 1             | 3             | 4                 | 3                 |
@@ -97,9 +97,13 @@ degs2 <- c(7, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 
 The average number of self-loops in k1 is 0.83 while for k2 it's 2.5. The average number of repeated edges in k1 is 1.13 while for k2 it's 2.73.
 
-## Exercise 2
+## Exercise 7.2
 
-```{r}
+#### (4)
+
+Below, the function *genRepConfModel()* generates a graph from a given degree sequence via the Repeated Configuration Model.
+
+```{r eval=FALSE}
 degs1 <- c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2)
 degs2 <- c(7, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)
 
@@ -141,30 +145,60 @@ genRepConfModel <- function(degs) {
   return (links)
 }
 
-success <- FALSE
-i <- 0
-while (!success) {
-  SUCCESS <- FALSE
-  i <- i + 1
-  printf('Generating graph: attempt %d\n', i)
-  links <- tryCatch({
-    genRepConfModel(degs2)
-  }, error = function(msg) {
-    message('Restarting program. Reason:')
-    message(msg)
-    message('\n')
-    return (NA)
-  })
-  if (!is.na(links)) {
-    success <- TRUE
+drawNewRepCM <- function(degs) {
+  success <- FALSE
+  i <- 0
+  while (!success) {
+    SUCCESS <- FALSE
+    i <- i + 1
+    printf('Generating graph: attempt %d\n', i)
+    links <- tryCatch({
+      genRepConfModel(degs)
+    }, error = function(msg) {
+      message('Restarting program. Reason:')
+      message(msg)
+      message('\n')
+      return (NA)
+    })
+    if (!is.na(links)) {
+      success <- TRUE
+    }
   }
+  network <- graph_from_data_frame(d=links, directed=FALSE)
+  plot(network)
+  return (i)
 }
-network <- graph_from_data_frame(d=links, directed=FALSE)
-plot(network)
 
+drawNewRepCM(degs1)
 ```
 
-## Exercise 3
+The code below generates 30 graphs via the function above with the goal of measuring the necessary amount of restarts each time.
+
+```{r eval=FALSE}
+restarts <- as.integer(list())
+for (i in 1:30) {
+  # restarts = attempts - 1
+  restarts <- append(restarts, drawNewRepCM(degs1) - 1)
+}
+printf('Restarts: ')
+for (r in restarts) {
+  printf('%d ', r)
+}
+printf('Average restarts: %f\n', mean(restarts))
+```
+
+The results were that the average number of restarts required for k<sub>1</sub> were 2.133333 and for k<sub>2</sub> were 669.300. In addition, it was observed that the majority of these restarts were due to self-loops.
+Generalizing this example, it means that degree distributions including elements with higher degrees tend to fail more. My explanation for this is that, as the vertices with smaller degrees get picked and crossed out the list, fewer vertices (with high degrees) remain and thus it's more likely they'll connect with themselves. In addition, having vertices with high degrees means they'll take longer to be picked for all the edges they can have, so they have more chances to repeat connections.
+
+## Exercise 7.3
+
+#### (5)
+
+avgClusterCoef -> function(edges) {
+  
+}
+
+#### (6)
 
 
 

@@ -13,6 +13,7 @@ library(igraph)
 library(purrr)
 library(data.table)
 library(R.utils)
+library(seqinr) # swap
 ```
 
 ## Exercise 7.1
@@ -231,8 +232,48 @@ getAvgClusterCoef <- function(adjMat) {
 #### (6)
 
 ```{r}
-localRewiring <- function(adjMat) {
+# graph with 4 disconnected clusters
+g1 <- matrix(0, nrow=12, ncol=12)
+g1Edges <- data.frame('src' = 1:12, 'target' = c(2,3,1, 5,6,4, 8,9,7, 11,12,10))
+g1[cbind(g1Edges$src, g1Edges$target)] <- g1[cbind(g1Edges$target, g1Edges$src)] <- 1
+
+# circular graph
+g2 <- matrix(0, nrow=12, ncol=12)
+g2Edges <- data.frame('src' = 1:12, 'target' = (1:12 %% 12) + 1)
+g2[cbind(g2Edges$src, g2Edges$target)] <- g2[cbind(g2Edges$target, g2Edges$src)] <- 1
+
+# plot(graph_from_adjacency_matrix(g2, mode='undirected'))
+
+rewireStep <- function(adjMat) {
+  edges <- which(adjMat != 0, arr.ind=TRUE)
+  repeat {
+    edge1 <- edges[sample(nrow(edges), size=1), ]
+    edge2 <- edges[sample(nrow(edges), size=1), ]
+    # accept edges if they don't share any nodes and if the new edges don't already exist
+    if (length(intersect(edge1, edge2)) == 0
+        & adjMat[edge1[1], edge2[2]] == 0 & adjMat[edge2[1], edge1[2]] == 0) {
+      break
+    }
+  }
   
+  # Remove current edges
+  adjMat[edge1[1], edge1[2]] <- adjMat[edge1[2], edge1[1]] <- 0
+  adjMat[edge2[1], edge2[2]] <- adjMat[edge2[2], edge2[1]] <- 0
+  
+  # Insert new swapped edges
+  adjMat[edge1[1], edge2[2]] <- adjMat[edge2[2], edge1[1]] <- 1
+  adjMat[edge2[1], edge1[2]] <- adjMat[edge1[2], edge2[1]] <- 1
+  
+  return (adjMat)
+}
+
+# its: Iterations
+localRewiring <- function(adjMat, its) {
+  for (i in 1:its) {
+    adjMat <- rewireStep(adjMat)
+  }
+  print(adjMat)
+  plot(graph_from_adjacency_matrix(adjMat, mode='undirected'))
 }
 ```
 

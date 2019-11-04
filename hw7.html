@@ -728,8 +728,48 @@ getAvgClusterCoef &lt;- function(adjMat) {
 </div>
 <div id="section-5" class="section level4">
 <h4>(6)</h4>
-<pre class="r"><code>localRewiring &lt;- function(adjMat) {
+<pre class="r"><code># graph with 4 disconnected clusters
+g1 &lt;- matrix(0, nrow=12, ncol=12)
+g1Edges &lt;- data.frame(&#39;src&#39; = 1:12, &#39;target&#39; = c(2,3,1, 5,6,4, 8,9,7, 11,12,10))
+g1[cbind(g1Edges$src, g1Edges$target)] &lt;- g1[cbind(g1Edges$target, g1Edges$src)] &lt;- 1
+
+# circular graph
+g2 &lt;- matrix(0, nrow=12, ncol=12)
+g2Edges &lt;- data.frame(&#39;src&#39; = 1:12, &#39;target&#39; = (1:12 %% 12) + 1)
+g2[cbind(g2Edges$src, g2Edges$target)] &lt;- g2[cbind(g2Edges$target, g2Edges$src)] &lt;- 1
+
+# plot(graph_from_adjacency_matrix(g2, mode=&#39;undirected&#39;))
+
+rewireStep &lt;- function(adjMat) {
+  edges &lt;- which(adjMat != 0, arr.ind=TRUE)
+  repeat {
+    edge1 &lt;- edges[sample(nrow(edges), size=1), ]
+    edge2 &lt;- edges[sample(nrow(edges), size=1), ]
+    # accept edges if they don&#39;t share any nodes and if the new edges don&#39;t already exist
+    if (length(intersect(edge1, edge2)) == 0
+        &amp; adjMat[edge1[1], edge2[2]] == 0 &amp; adjMat[edge2[1], edge1[2]] == 0) {
+      break
+    }
+  }
   
+  # Remove current edges
+  adjMat[edge1[1], edge1[2]] &lt;- adjMat[edge1[2], edge1[1]] &lt;- 0
+  adjMat[edge2[1], edge2[2]] &lt;- adjMat[edge2[2], edge2[1]] &lt;- 0
+  
+  # Insert new swapped edges
+  adjMat[edge1[1], edge2[2]] &lt;- adjMat[edge2[2], edge1[1]] &lt;- 1
+  adjMat[edge2[1], edge1[2]] &lt;- adjMat[edge1[2], edge2[1]] &lt;- 1
+  
+  return (adjMat)
+}
+
+# its: Iterations
+localRewiring &lt;- function(adjMat, its) {
+  for (i in 1:its) {
+    adjMat &lt;- rewireStep(adjMat)
+  }
+  print(adjMat)
+  plot(graph_from_adjacency_matrix(adjMat, mode=&#39;undirected&#39;))
 }</code></pre>
 </div>
 </div>

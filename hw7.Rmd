@@ -61,7 +61,7 @@ genConfModel <- function(degs) {
 
 The time complexity is $O(|V|.(|V|-1)/2) = O(|V|^2)$ while the space complexity is also $O(|V|.(|V|-1)/2) = O(|V|^2)$ due to the worst case of having big enough desired degrees to allow every possible edge to exist.
 
-The Fisher Yates shuffle wouldn't help improve it. A possible algorithm using it could be:
+The Fisher Yates shuffle wouldn't help improve it. A possible algorithm using it could be shuffling all possible edges, removing those that would increase the degree sequences beyond the input limit, as shown by the pseudocode below.
 ```{r, eval=FALSE}
 function GenerateConfigurationModel(k[1], ..., k[n])
   Input k[1], ..., k[n]: graphical degree sequence
@@ -86,7 +86,9 @@ function GenerateConfigurationModel(k[1], ..., k[n])
       
   return list of edges
 ```
-It stores every possible edge in a list at the beginning, making the space complexity O(|V|.log(|V|)). The time complexity is O(|V|.log(|V|)).
+It stores every possible edge in a list at the beginning, making the space complexity O(|V|.log(|V|)). The time complexity is also O(|V|.log(|V|)).
+
+Although the latter seems more efficient, this is only the worst-case scenario. The Fisher Yates shuffle variant will always run in O(|V|.log(|V|)), while the former can run significantly faster and occupy less space depending on the input degrees.
 
 #### (3)
 

@@ -10,7 +10,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Alicja Dutkiewicz" />
+<meta name="author" content="Alicja Dutkiewicz - s2530856" />
 <meta name="author" content="Irina Gurewitsch - s2621258" />
 <meta name="author" content="João Esteves - s2679663" />
 
@@ -375,7 +375,7 @@ summary {
 
 
 <h1 class="title toc-ignore">Homework 7</h1>
-<h4 class="author">Alicja Dutkiewicz</h4>
+<h4 class="author">Alicja Dutkiewicz - s2530856</h4>
 <h4 class="author">Irina Gurewitsch - s2621258</h4>
 <h4 class="author">João Esteves - s2679663</h4>
 <h4 class="date">05/11/2019</h4>
@@ -419,8 +419,8 @@ genConfModel &lt;- function(degs) {
 </div>
 <div id="section-1" class="section level4">
 <h4>(2)</h4>
-<p>The time complexity is <span class="math inline">\(O(|V|*(|V|-1)/2) = O(|V|^2)\)</span> while the space complexity is also <span class="math inline">\(O(|V|.(|V|-1)/2) = O(|V|^2)\)</span> due to the worst case of having big enough desired degrees to allow every possible edge to exist.</p>
-<p>The Fisher Yates shuffle wouldn’t help improve it. A possible algorithm using it could be:</p>
+<p>The time complexity is <span class="math inline">\(O(|V|.(|V|-1)/2) = O(|V|^2)\)</span> while the space complexity is also <span class="math inline">\(O(|V|.(|V|-1)/2) = O(|V|^2)\)</span> due to the worst case of having big enough desired degrees to allow every possible edge to exist.</p>
+<p>The Fisher Yates shuffle wouldn’t help improve it. A possible algorithm using it could be shuffling all possible edges, removing those that would increase the degree sequences beyond the input limit, as shown by the pseudocode below.</p>
 <pre class="r"><code>function GenerateConfigurationModel(k[1], ..., k[n])
   Input k[1], ..., k[n]: graphical degree sequence
   Initialize list of edges to be empty
@@ -443,7 +443,8 @@ genConfModel &lt;- function(degs) {
       Remove e from list of edges
       
   return list of edges</code></pre>
-<p>It stores every possible edge in a list at the beginning, making the space complexity O(|V|.log(|V|)). The time complexity is O(|V|.log(|V|)).</p>
+<p>It stores every possible edge in a list at the beginning, making the space complexity O(|V|.log(|V|)). The time complexity is also O(|V|.log(|V|)).</p>
+<p>Although the latter seems more efficient, this is only the worst-case scenario. The Fisher Yates shuffle variant will always run in O(|V|.log(|V|)), while the former can run significantly faster and occupy less space depending on the input degrees.</p>
 </div>
 <div id="section-2" class="section level4">
 <h4>(3)</h4>
@@ -884,7 +885,7 @@ G2
 0.00
 </td>
 <td style="text-align:center;">
-0.00
+1.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -901,10 +902,10 @@ G2
 0.00
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 <td style="text-align:center;">
 0.00
@@ -915,7 +916,7 @@ G2
 3
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 <td style="text-align:center;">
 0.00
@@ -941,7 +942,7 @@ G2
 0.00
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 </tr>
 <tr>
@@ -958,7 +959,7 @@ G2
 0.00
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 </tr>
 <tr>
@@ -969,10 +970,10 @@ G2
 0.00
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -983,7 +984,7 @@ G2
 7
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -1000,7 +1001,7 @@ G2
 8
 </td>
 <td style="text-align:center;">
-0.50
+0.25
 </td>
 <td style="text-align:center;">
 0.00
@@ -1034,7 +1035,7 @@ G2
 10
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 <td style="text-align:center;">
 0.00

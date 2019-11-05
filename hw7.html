@@ -419,7 +419,7 @@ genConfModel &lt;- function(degs) {
 </div>
 <div id="section-1" class="section level4">
 <h4>(2)</h4>
-<p>The time complexity is O() while the space complexity is O().</p>
+<p>The time complexity is <span class="math inline">\(O(|V|*(|V|-1)/2) = O(|V|^2)\)</span> while the space complexity is also <span class="math inline">\(O(|V|.(|V|-1)/2) = O(|V|^2)\)</span> due to the worst case of having big enough desired degrees to allow every possible edge to exist.</p>
 <p>The Fisher Yates shuffle wouldn’t help improve it. A possible algorithm using it could be:</p>
 <pre class="r"><code>function GenerateConfigurationModel(k[1], ..., k[n])
   Input k[1], ..., k[n]: graphical degree sequence
@@ -452,10 +452,10 @@ degs2 &lt;- c(7, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)</code></pre>
 <table>
 <thead>
 <tr class="header">
-<th>k<sub>1</sub> self-loops</th>
-<th>k<sub>2</sub> self-loops</th>
-<th>k<sub>1</sub> repeated edges</th>
-<th>k<sub>2</sub> repeated edges</th>
+<th><span class="math inline">\(k_1\)</span> self-loops</th>
+<th><span class="math inline">\(k_2\)</span> self-loops</th>
+<th><span class="math inline">\(k_1\)</span> repeated edges</th>
+<th><span class="math inline">\(k_2\)</span> repeated edges</th>
 </tr>
 </thead>
 <tbody>
@@ -725,14 +725,14 @@ for (r in restarts) {
   printf(&#39;%d &#39;, r)
 }
 printf(&#39;Average restarts: %f\n&#39;, mean(restarts))</code></pre>
-<p>The results were that the average number of restarts required for k<sub>1</sub> were 2.133333 and for k<sub>2</sub> were 669.300. In addition, it was observed that the majority of these restarts were due to self-loops. Generalizing this example, it means that degree distributions including elements with higher degrees tend to fail more. My explanation for this is that, as the vertices with smaller degrees get picked and crossed out the list, fewer vertices (with high degrees) remain and thus it’s more likely they’ll connect with themselves. In addition, having vertices with high degrees means they’ll take longer to be picked for all the edges they can have, so they have more chances to repeat connections.</p>
+<p>The results were that the average number of restarts required for <span class="math inline">\(k_1\)</span> were 2.133333 and for <span class="math inline">\(k_2\)</span> were 669.300. In addition, it was observed that the majority of these restarts were due to self-loops. Generalizing this example, it means that degree distributions including elements with higher degrees tend to fail more. My explanation for this is that, as the vertices with smaller degrees get picked and crossed out the list, fewer vertices (with high degrees) remain and thus it’s more likely they’ll connect with themselves. In addition, having vertices with high degrees means they’ll take longer to be picked for all the edges they can have, so they have more chances to repeat connections.</p>
 </div>
 </div>
 <div id="exercise-7.3" class="section level2">
 <h2>Exercise 7.3</h2>
 <div id="section-4" class="section level4">
 <h4>(5)</h4>
-<p>In the code chunk below you’ll find functions to obtain, respectively, the degree of a node, the local clustering coefficient of a node and the average clustering coefficient. The time complexity for the former is O(|V|<sup>3</sup>).</p>
+<p>In the code chunk below you’ll find functions to obtain, respectively, the degree of a node, the local clustering coefficient of a node and the average clustering coefficient. The time complexity for the former is <span class="math inline">\(O(|V|^3)\)</span>.</p>
 <p>Note that for this exercise the graph representation is now an adjacency matrix rather than a list of edges.</p>
 <pre class="r"><code># Time: O(|V|)
 getNodeDegree &lt;- function(adjMat, node) {
@@ -881,13 +881,13 @@ G2
 1
 </td>
 <td style="text-align:center;">
-0.00
+0
 </td>
 <td style="text-align:center;">
 0.25
 </td>
 <td style="text-align:center;">
-0
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -898,16 +898,16 @@ G2
 2
 </td>
 <td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
+0.00
+</td>
+<td style="text-align:center;">
 0.25
+</td>
+<td style="text-align:center;">
+0.00
 </td>
 </tr>
 <tr>
@@ -915,16 +915,16 @@ G2
 3
 </td>
 <td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
-0.50
+0.00
+</td>
+<td style="text-align:center;">
+0.00
+</td>
+<td style="text-align:center;">
+0.00
 </td>
 </tr>
 <tr>
@@ -932,13 +932,13 @@ G2
 4
 </td>
 <td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
 0
+</td>
+<td style="text-align:center;">
+0.00
+</td>
+<td style="text-align:center;">
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -949,16 +949,16 @@ G2
 5
 </td>
 <td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
+0.25
+</td>
+<td style="text-align:center;">
 0.00
+</td>
+<td style="text-align:center;">
+0.50
 </td>
 </tr>
 <tr>
@@ -966,16 +966,16 @@ G2
 6
 </td>
 <td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
 0
 </td>
 <td style="text-align:center;">
 0.00
+</td>
+<td style="text-align:center;">
+0.00
+</td>
+<td style="text-align:center;">
+0.25
 </td>
 </tr>
 <tr>
@@ -983,13 +983,13 @@ G2
 7
 </td>
 <td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
 0
+</td>
+<td style="text-align:center;">
+0.25
+</td>
+<td style="text-align:center;">
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -1000,13 +1000,13 @@ G2
 8
 </td>
 <td style="text-align:center;">
-0.25
+0
 </td>
 <td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
-0
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -1017,16 +1017,16 @@ G2
 9
 </td>
 <td style="text-align:center;">
-0.00
+0
 </td>
 <td style="text-align:center;">
 0.25
 </td>
 <td style="text-align:center;">
-0
+0.25
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 </tr>
 <tr>
@@ -1034,13 +1034,13 @@ G2
 10
 </td>
 <td style="text-align:center;">
-0.25
+0
 </td>
 <td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
-0
+0.00
 </td>
 <td style="text-align:center;">
 0.00

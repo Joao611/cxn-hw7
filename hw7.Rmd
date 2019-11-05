@@ -59,7 +59,7 @@ genConfModel <- function(degs) {
 
 #### (2)
 
-The time complexity is O() while the space complexity is O().
+The time complexity is O(|V|.(|V|-1)/2) = O(|V|<sup>2</sup>) while the space complexity is also O(|V|.(|V|-1)/2) = O(|V|<sup>2</sup>) due to the worst case of having big enough desired degrees to allow every possible edge to exist.
 
 The Fisher Yates shuffle wouldn't help improve it. A possible algorithm using it could be:
 ```{r, eval=FALSE}
@@ -206,7 +206,7 @@ drawNewRepCM(degs1)
 
 The code below generates 30 graphs via the function above with the goal of measuring the necessary amount of restarts each time.
 
-```{r eval=FALSE}
+```{r, eval=FALSE}
 restarts <- as.integer(list())
 for (i in 1:30) {
   # restarts = attempts - 1

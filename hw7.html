@@ -14,7 +14,7 @@
 <meta name="author" content="Irina Gurewitsch - s2621258" />
 <meta name="author" content="João Esteves - s2679663" />
 
-<meta name="date" content="2019-04-11" />
+<meta name="date" content="2019-05-11" />
 
 <title>Homework 7</title>
 
@@ -378,7 +378,7 @@ summary {
 <h4 class="author">Alicja Dutkiewicz</h4>
 <h4 class="author">Irina Gurewitsch - s2621258</h4>
 <h4 class="author">João Esteves - s2679663</h4>
-<h4 class="date">04/11/2019</h4>
+<h4 class="date">05/11/2019</h4>
 
 </div>
 
@@ -641,7 +641,7 @@ degs2 &lt;- c(7, 4, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>The average number of self-loops in k1 is 0.83 while for k2 it’s 2.5. The average number of repeated edges in k1 is 1.13 while for k2 it’s 2.73.</p>
+<p>The average number of self-loops in <span class="math inline">\(k_1\)</span> is 0.83 while for <span class="math inline">\(k_2\)</span> it’s 2.5. The average number of repeated edges in <span class="math inline">\(k_1\)</span> is 1.13 while for <span class="math inline">\(k_2\)</span> it’s 2.73.</p>
 </div>
 </div>
 <div id="exercise-7.2" class="section level2">
@@ -725,7 +725,7 @@ for (r in restarts) {
   printf(&#39;%d &#39;, r)
 }
 printf(&#39;Average restarts: %f\n&#39;, mean(restarts))</code></pre>
-<p>The results were that the average number of restarts required for <span class="math inline">\(k_1\)</span> were 2.133333 and for <span class="math inline">\(k_2\)</span> were 669.300. In addition, it was observed that the majority of these restarts were due to self-loops. Generalizing this example, it means that degree distributions including elements with higher degrees tend to fail more. My explanation for this is that, as the vertices with smaller degrees get picked and crossed out the list, fewer vertices (with high degrees) remain and thus it’s more likely they’ll connect with themselves. In addition, having vertices with high degrees means they’ll take longer to be picked for all the edges they can have, so they have more chances to repeat connections.</p>
+<p>The results were that the average number of restarts required for <span class="math inline">\(k_1\)</span> were 2.133333 and for <span class="math inline">\(k_2\)</span> were 669.300. In addition, it was observed that the majority of these restarts were due to self-loops. Generalizing this example, it means that degree distributions including elements with degrees much higher than the average degree tend to fail more. Our explanation for this is that, as the vertices with smaller degrees get picked and crossed out the list, fewer vertices (with high degrees) remain and thus it’s more likely they’ll connect with themselves. In addition, having vertices with high degrees means they’ll take longer to be picked for all the edges they can have, so they have more chances to repeat connections.</p>
 </div>
 </div>
 <div id="exercise-7.3" class="section level2">
@@ -881,10 +881,10 @@ G2
 1
 </td>
 <td style="text-align:center;">
-0
+0.00
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -898,13 +898,13 @@ G2
 2
 </td>
 <td style="text-align:center;">
-0
+0.00
 </td>
 <td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -915,7 +915,7 @@ G2
 3
 </td>
 <td style="text-align:center;">
-0
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -932,9 +932,6 @@ G2
 4
 </td>
 <td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
@@ -942,6 +939,9 @@ G2
 </td>
 <td style="text-align:center;">
 0.00
+</td>
+<td style="text-align:center;">
+0.25
 </td>
 </tr>
 <tr>
@@ -949,16 +949,16 @@ G2
 5
 </td>
 <td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
-0.50
+0.00
+</td>
+<td style="text-align:center;">
+0.00
 </td>
 </tr>
 <tr>
@@ -966,16 +966,16 @@ G2
 6
 </td>
 <td style="text-align:center;">
-0
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
 0.25
+</td>
+<td style="text-align:center;">
+0.25
+</td>
+<td style="text-align:center;">
+0.00
 </td>
 </tr>
 <tr>
@@ -983,10 +983,10 @@ G2
 7
 </td>
 <td style="text-align:center;">
-0
+0.25
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -1000,7 +1000,7 @@ G2
 8
 </td>
 <td style="text-align:center;">
-0
+0.50
 </td>
 <td style="text-align:center;">
 0.00
@@ -1017,16 +1017,16 @@ G2
 9
 </td>
 <td style="text-align:center;">
-0
+0.00
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 </tr>
 <tr>
@@ -1034,7 +1034,7 @@ G2
 10
 </td>
 <td style="text-align:center;">
-0
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -1048,7 +1048,7 @@ G2
 </tr>
 </tbody>
 </table>
-<p>In addition to the table, the average cluster coefficients before rewiring for G1 and G2 are respectively 1.0 and 0.0. As seen in the table, there aren’t many differences between starting the algorithm on G1 or G2. This is because G1 can turn into G2 and vice-versa after just a few rewiring steps, so the results are quite random.</p>
+<p>In addition to the table, the average cluster coefficients before rewiring for G1 and G2 are respectively 1.0 and 0.0. As seen in the table, there aren’t many differences between starting the algorithm on G1 or G2. This is because G1 can turn into G2 and vice-versa after just a few rewiring steps. Moreover, we see that the final average clustering coefficient is often 0. This is because once the graph becomes a circular graph (G2) it’s difficult to change its structure to anything else with local rewiring, as at every step we have 50% chance that the graph will continue to be circular.</p>
 </div>
 </div>
 

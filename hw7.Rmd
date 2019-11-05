@@ -59,7 +59,7 @@ genConfModel <- function(degs) {
 
 #### (2)
 
-The time complexity is $O(|V|*(|V|-1)/2) = O(|V|^2)$ while the space complexity is also $O(|V|.(|V|-1)/2) = O(|V|^2)$ due to the worst case of having big enough desired degrees to allow every possible edge to exist.
+The time complexity is $O(|V|.(|V|-1)/2) = O(|V|^2)$ while the space complexity is also $O(|V|.(|V|-1)/2) = O(|V|^2)$ due to the worst case of having big enough desired degrees to allow every possible edge to exist.
 
 The Fisher Yates shuffle wouldn't help improve it. A possible algorithm using it could be:
 ```{r, eval=FALSE}

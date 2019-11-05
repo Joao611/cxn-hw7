@@ -1,6 +1,9 @@
 ---
 title: "Homework 7"
-author: "Alicja Dutkiewicz, Irina Gurewitsch, João Esteves"
+author:
+- Alicja Dutkiewicz
+- Irina Gurewitsch - s2621258
+- João Esteves - s2679663
 date: "04/11/2019"
 output: html_document
 editor_options: 
@@ -56,7 +59,34 @@ genConfModel <- function(degs) {
 
 #### (2)
 
-TODO
+The time complexity is O() while the space complexity is O().
+
+The Fisher Yates shuffle wouldn't help improve it. A possible algorithm using it could be:
+```{r, eval=FALSE}
+function GenerateConfigurationModel(k[1], ..., k[n])
+  Input k[1], ..., k[n]: graphical degree sequence
+  Initialize list of edges to be empty
+  curr_degrees <- vector of size n filled with zeroes
+  
+  for i in 1:n:
+    for j in (i+1):n:
+      Add edge (i,j) to list of edges
+  
+  i <- 1
+  while i <= length(list of edges):
+    z <- uniform random integer within [i+1; length(list of edges)]
+    e <- edges[z]
+    if curr_degrees[e[source]] + 1 <= k[e[source] AND curr_degrees[e[target]] + 1 <= k[e[target]]:
+      swap(edges[i], e)
+      curr_degrees[e[source]]++
+      curr_degrees[e[target]]++
+      i++
+    else:
+      Remove e from list of edges
+      
+  return list of edges
+```
+It stores every possible edge in a list at the beginning, making the space complexity O(|V|.log(|V|)). The time complexity is O(|V|.log(|V|)).
 
 #### (3)
 

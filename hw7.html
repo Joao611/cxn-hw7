@@ -10,7 +10,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Alicja Dutkiewicz, Irina Gurewitsch, João Esteves" />
+<meta name="author" content="Alicja Dutkiewicz" />
+<meta name="author" content="Irina Gurewitsch - s2621258" />
+<meta name="author" content="João Esteves - s2679663" />
 
 <meta name="date" content="2019-04-11" />
 
@@ -373,7 +375,9 @@ summary {
 
 
 <h1 class="title toc-ignore">Homework 7</h1>
-<h4 class="author">Alicja Dutkiewicz, Irina Gurewitsch, João Esteves</h4>
+<h4 class="author">Alicja Dutkiewicz</h4>
+<h4 class="author">Irina Gurewitsch - s2621258</h4>
+<h4 class="author">João Esteves - s2679663</h4>
 <h4 class="date">04/11/2019</h4>
 
 </div>
@@ -415,7 +419,31 @@ genConfModel &lt;- function(degs) {
 </div>
 <div id="section-1" class="section level4">
 <h4>(2)</h4>
-<p>TODO</p>
+<p>The time complexity is O() while the space complexity is O().</p>
+<p>The Fisher Yates shuffle wouldn’t help improve it. A possible algorithm using it could be:</p>
+<pre class="r"><code>function GenerateConfigurationModel(k[1], ..., k[n])
+  Input k[1], ..., k[n]: graphical degree sequence
+  Initialize list of edges to be empty
+  curr_degrees &lt;- vector of size n filled with zeroes
+  
+  for i in 1:n:
+    for j in (i+1):n:
+      Add edge (i,j) to list of edges
+  
+  i &lt;- 1
+  while i &lt;= length(list of edges):
+    z &lt;- uniform random integer within [i+1; length(list of edges)]
+    e &lt;- edges[z]
+    if curr_degrees[e[source]] + 1 &lt;= k[e[source] AND curr_degrees[e[target]] + 1 &lt;= k[e[target]]:
+      swap(edges[i], e)
+      curr_degrees[e[source]]++
+      curr_degrees[e[target]]++
+      i++
+    else:
+      Remove e from list of edges
+      
+  return list of edges</code></pre>
+<p>It stores every possible edge in a list at the beginning, making the space complexity O(|V|.log(|V|)). The time complexity is O(|V|.log(|V|)).</p>
 </div>
 <div id="section-2" class="section level4">
 <h4>(3)</h4>
@@ -737,6 +765,7 @@ getAvgClusterCoef &lt;- function(adjMat) {
 </div>
 <div id="section-5" class="section level4">
 <h4>(6)</h4>
+<p>The code below defines functions for the elementary rewiring step and for the local rewiring algorithm.</p>
 <pre class="r"><code>rewireStep &lt;- function(adjMat) {
   edges &lt;- which(adjMat != 0, arr.ind=TRUE)
   repeat {
@@ -767,6 +796,7 @@ localRewiring &lt;- function(adjMat, its) {
   }
   return (adjMat)
 }</code></pre>
+<p>The code below runs the local rewiring algorithm and measures the obtained graphs’ average cluster coefficients to generate a table.</p>
 <pre class="r"><code># Graph with 4 disconnected clusters
 g1 &lt;- matrix(0, nrow=12, ncol=12)
 g1Edges &lt;- data.frame(&#39;src&#39; = 1:12, &#39;target&#39; = c(2,3,1, 5,6,4, 8,9,7, 11,12,10))
@@ -851,7 +881,7 @@ G2
 1
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 <td style="text-align:center;">
 0.25
@@ -868,7 +898,7 @@ G2
 2
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 <td style="text-align:center;">
 0.00
@@ -877,7 +907,7 @@ G2
 0.00
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 </tr>
 <tr>
@@ -885,13 +915,13 @@ G2
 3
 </td>
 <td style="text-align:center;">
-0.00
+0.50
 </td>
 <td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 <td style="text-align:center;">
 0.00
@@ -902,16 +932,16 @@ G2
 4
 </td>
 <td style="text-align:center;">
-0.00
+0.25
+</td>
+<td style="text-align:center;">
+0.25
 </td>
 <td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.00
+0.25
 </td>
 </tr>
 <tr>
@@ -919,7 +949,7 @@ G2
 5
 </td>
 <td style="text-align:center;">
-0.00
+0.25
 </td>
 <td style="text-align:center;">
 0.00
@@ -936,13 +966,13 @@ G2
 6
 </td>
 <td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
-0.00
-</td>
-<td style="text-align:center;">
 0.25
+</td>
+<td style="text-align:center;">
+0.00
+</td>
+<td style="text-align:center;">
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -970,7 +1000,7 @@ G2
 8
 </td>
 <td style="text-align:center;">
-0.25
+0.00
 </td>
 <td style="text-align:center;">
 0.00
@@ -987,9 +1017,6 @@ G2
 9
 </td>
 <td style="text-align:center;">
-0.25
-</td>
-<td style="text-align:center;">
 0.00
 </td>
 <td style="text-align:center;">
@@ -997,6 +1024,9 @@ G2
 </td>
 <td style="text-align:center;">
 0.25
+</td>
+<td style="text-align:center;">
+0.00
 </td>
 </tr>
 <tr>
@@ -1018,7 +1048,7 @@ G2
 </tr>
 </tbody>
 </table>
-<p>In addition to the table, the average cluster coefficients before rewiring for G1 and G2 are respectively 1.0 and 0.0. As seen in the table,</p>
+<p>In addition to the table, the average cluster coefficients before rewiring for G1 and G2 are respectively 1.0 and 0.0. As seen in the table, there aren’t many differences between starting the algorithm on G1 or G2. This is because G1 can turn into G2 and vice-versa after just a few rewiring steps, so the results are quite random.</p>
 </div>
 </div>
 

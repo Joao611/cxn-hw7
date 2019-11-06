@@ -76,7 +76,7 @@ function GenerateConfigurationModel(k[1], ..., k[n])
   while i <= length(list of edges):
     z <- uniform random integer within [i+1; length(list of edges)]
     e <- edges[z]
-    if curr_degrees[e[source]] + 1 <= k[e[source] AND curr_degrees[e[target]] + 1 <= k[e[target]]:
+    if curr_degrees[e[source]] + 1 <= k[e[source]] AND curr_degrees[e[target]] + 1 <= k[e[target]]:
       swap(edges[i], e)
       curr_degrees[e[source]]++
       curr_degrees[e[target]]++
